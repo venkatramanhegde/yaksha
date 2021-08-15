@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</head>
+<style>
+    img {
+          max-width: 100%;
+          max-height: 50%;
+}
+
+
+
+
+
+.displayNone {
+  display: none;
+}
+.displayBlock {
+  display: block;
+}
+
+.button {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #04AA6D;
+  border: none;
+  border-radius: 10px;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.logout {
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.navbar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+</style>
+<body>
+   {% if user.is_user %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="nav-link active" id="programTab">Programs</a>
+        <a class="nav-link" id="premiumTab">Premium Program</a>
+        <button class="btn logout btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">logout</button>
+</nav>
+
+<!--<div class="topnav">-->
+<!--  <a class="active" id="programTab">Programs</a>-->
+<!--  <a id="premiumTab">Premium Programs</a>-->
+
+<!--  <button class="btn logout btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">logout</button>-->
+
+<!--</div>-->
+<div class="container">
+    <div  class="programTab">
+        <div
+    id="carouselMultiItemExample"
+    class="carousel slide carousel-dark text-center"
+    data-mdb-ride="carousel">
+    <!-- Controls -->
+    <div class="d-flex justify-content-center mb-4">
+
+    </div>
+    <!-- Inner -->
+    <div class="carousel-inner py-4">
+      <!-- Single item -->
+      <div class="carousel-item active">
+        <div class="container">
+          <div class="row">
+            {% for videos in videos %}
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="card">
+                <img
+                  src="{{videos.image_path}}"
+                  class="card-img-top"
+                  alt="..."
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{videos.amount}}</h5>
+                  <p class="card-text">
+                    {{videos.description}}
+                  </p>
+            <form action="/videomanagement/paymentorder/" method="GET">
+                <button  class="btn btn-primary">Buy</button>
+                <input type="hidden"  value="{{videos.id}}" name="video_id">
+                <input type="hidden"  value="{{videos.amount}}" name="amount">
+
+            </form>
+
+                </div>
+
+
+
+{% if payment.video_id == videos.id %}
+<form action="/videomanagement/paymentsuccess/" method="POST">
+    <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="rzp_test_rtYqPGP7pemH2e"
+        data-amount="{{videos.amount}}"
+        data-currency="INR"
+        data-order_id="{{payment.id}}"
+        data-buttontext="Pay Online"
+        data-image="https://example.com/your_logo.jpg"
+        data-prefill.email="your.mail@example.com"
+        data-theme.color="#F37254">
+    </script>
+    <input type="hidden"  value="{{videos.id}}" name="video_id">
+                    </form>
+                      {% endif %}
+
+              </div>
+            </div>
+
+                        {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div  class="displayNone premiumTab">
+<div
+    class="carousel slide carousel-dark text-center"
+    data-mdb-ride="carousel">
+    <!-- Controls -->
+    <div class="d-flex justify-content-center mb-4">
+
+    </div>
+    <!-- Inner -->
+    <div class="carousel-inner py-4">
+      <!-- Single item -->
+      <div class="carousel-item active">
+        <div class="container">
+          <div class="row">
+            {% for videos in premium_video %}
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="card">
+                <img
+                  src="/{{videos.image_path}}"
+                  class="card-img-top"
+                  alt="..."
+                />
+              <br>
+              <button onclick="openvideo('/{{videos.mbl_video_path}}')" class="btn btn-primary">Watch Mobile Version</button>
+
+                  <br>
+              <button  class="btn btn-primary" onclick="openvideo('/{{videos.web_video_path}}')">Watch Mobile Version</button>
+
+                </div>
+              </div>
+            </div>
+
+                        {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal" id="videoModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+        <video id="video" width="500" height="500" controls></video>
+
+  </div>
+</div>
+   {%endif%}
+</body>
+<script>
+function buyVideo(video_id){
+    alert()
+
+
+   $.ajax({
+    url: "/videomanagement/paymentorder/",
+    data: {"video_id": video_id},
+    processData: false,
+    method: "post",
+    contentType: false,
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "X-CSRFToken",
+        $('input[name="csrfmiddlewaretoken"]').val()
+      );
+    },
+    success: function(data) {
+      alert(data.msg)
+
+    }
+  });
+
+}
+
+
+$("#programTab").click(function() {
+   $(".premiumTab").removeClass("displayBlock");
+    $(".premiumTab").addClass("displayNone");
+   $(".programTab").removeClass("displayNone");
+ if (!$(this).hasClass("active")) {
+    $("#programTab").addClass("active");
+    $("#premiumTab").removeClass("active");
+}
+  });
+  $("#premiumTab").click(function() {
+      $(".programTab").removeClass("displayBlock");
+    $(".programTab").addClass("displayNone");
+   $(".premiumTab").removeClass("displayNone");
+ if (!$(this).hasClass("active")) {
+    $("#premiumTab").addClass("active");
+    $("#programTab").removeClass("active");
+}
+ });
+
+ function openvideo(video_path){
+ var video = document.getElementById('video');
+var source = document.createElement('source');
+
+source.setAttribute('src', video_path);
+
+video.appendChild(source);
+video.play();
+        $('#videoModal').modal('show')
+    }
+
+function logout(){
+ $.ajax({
+    url: "/videomanagement/logout/",
+    processData: false,
+    method: "get",
+    contentType: false,
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "X-CSRFToken",
+        $('input[name="csrfmiddlewaretoken"]').val()
+      );
+    },
+    success: function(data) {
+      window.location.href = "/videomanagement/login/";
+
+    }
+  });
+}
+
+</script>
+
+</html>

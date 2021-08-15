@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <style>
+
+        img {
+          max-width: 100%;
+          max-height: 50%;
+}
+
+.displayNone {
+  display: none;
+}
+.displayBlock {
+  display: block;
+}
+
+
+
+
+
+
+.logout {
+    margin-left: auto;
+    margin-right: 20px;
+}
+.width200{
+ width : 200px
+}
+
+.navbar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+</style>
+<body>
+   {% if user.is_admin %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="nav-link active" id="programTab">Programs</a>
+        <a class="nav-link" id="NewprogramTab">Create New Programs</a>
+        <button class="btn logout btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">logout</button>
+</nav>
+<!--<div class="topnav">-->
+<!--  <a class="active" id="programTab">Programs</a>-->
+<!--  <a id="premiumTab">Premium Programs</a>-->
+
+<!--</div>-->
+<div  class="NewprogramTab displayNone">
+  <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-8 border p-3">
+
+
+    <div class="form-group">
+      <label for="yakshaname">Program Name</label>
+      <input type="email" class="form-control" id="yakshaname" aria-describedby="emailHelp" placeholder="Program Name">
+    </div>
+    <div class="form-group">
+      <label for="description">Program Description</label>
+      <textarea type="text" class="form-control" id="description" placeholder="Program Description">
+  </textarea>
+    </div>
+      <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="text" class="form-control" id="amount" placeholder="Amount">
+    </div>
+                    <br>
+      <form id="videoUploadForm">
+           <label class="btn btn-primary" for="videoUpload">Upload Program Pamphlet</label>
+          <input class="c1" type="file" id="videoUpload" name="docfile" hidden
+          title="Upload pamphlet">
+      </form>
+          <br>
+    <button type="submit" id="programSubmit" class="btn btn-primary">Submit</button>
+  </div>
+  </div>
+</div>
+
+
+<!--<div class="form-group">-->
+<!--      <label>Upload Pamphlet</label>-->
+<!--    <button type="file" class="btn btn-primary">Upload Pamphlet</button>-->
+<!--    </div>-->
+<!--<form id="videoUploadForm">-->
+<!--      <input class="c1" type="file" id="videoUpload" name="docfile"-->
+<!--       title="Upload pamphlet">-->
+
+<!--   </form>-->
+
+<div  class="programTab">
+
+  <div
+    id="carouselMultiItemExample"
+    class="carousel slide carousel-dark text-center"
+    data-mdb-ride="carousel">
+    <!-- Controls -->
+    <div class="d-flex justify-content-center mb-4">
+
+    </div>
+    <!-- Inner -->
+    <div class="carousel-inner py-4">
+      <!-- Single item -->
+      <div class="carousel-item active">
+        <div class="container">
+          <div class="row">
+            {% for videos in videos %}
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="card">
+                <img
+                  src="{{videos.image_path}}"
+                  class="card-img-top"
+                  alt="..."
+                />
+                <div class="card-body">
+                  <h5 class="card-title">Rs.{{videos.amount}}</h5>
+                  <p class="card-text">
+                    {{videos.description}}
+                  </p>
+                    <h5 class="card-title">
+                    Total Buy : {{videos.total_buy}}
+                  </h5>
+                </div>
+ <div class="row">
+            <div class="col-lg-6 col-sm-6 col-xs-6">
+ <form onchange="mblVersionUpload({{videos.id}})" id="mblvideoUploadForm{{videos.id}}">
+          <label class="btn btn-primary width200" for="mblvideoUpload{{videos.id}}">Upload Mobile Version</label>
+          <input class="c1 hidden" type="file" hidden id="mblvideoUpload{{videos.id}}" name="docfile"
+          title="Upload pamphlet">
+      </form>
+            </div>
+                 <div class="col-lg-6 col-sm-6 col-xs-6">
+
+                   {% if videos.mbl_video_path  %}
+                        <button onclick="openvideo('{{videos.mbl_video_path}}')" class="btn btn-primary width200">Watch Mobile Version</button>
+                    {%endif%}
+            </div>
+     <div>
+     </div>
+
+         <br>
+<div class="row">
+            <div class="col-lg-6 col-sm-6 col-xs-6">
+                     <form onchange="webVersionUpload({{videos.id}})" id="webvideoUploadForm{{videos.id}}">
+                      <label class="btn btn-primary width200" for="webvideoUploadForm{{videos.id}}">Upload Web Version</label>
+          <input class="c1 hidden" type="file" hidden id="webvideoUpload{{videos.id}}"  name="docfile"
+          title="Upload pamphlet">
+      </form>
+
+            </div>
+           <div class="col-lg-6 col-sm-6 col-xs-6">
+
+    {% if videos.web_video_path  %}
+                        <button  class="btn btn-primary width200" onclick="openvideo('{{videos.web_video_path}}')">Watch Web Version</button>
+                    {%endif%}
+
+           </div>
+</div>
+<!--                  <a onclick="mblVersionUpload({{videos.id}})" class="btn btn-primary">Upload Mobile Version</a>-->
+<!--                  <a onclick="webVersionUpload({{videos.id}})" class="btn btn-primary">Upload Web Version</a>-->
+
+                </div>
+              </div>
+            </div>
+
+                        {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="videoModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+        <video id="video" width="500" height="500" controls></video>
+
+  </div>
+</div>
+                    {%endif%}
+
+</body>
+<script>
+function mblVersionUpload(program_id){
+
+  var fd =  new FormData($("#mblvideoUploadForm"+program_id)[0]);
+  fd.append("program_id",  program_id);
+<!--  $.preloader.start({ modal: true });-->
+  $.ajax({
+    url: "/videomanagement/mblupload/",
+    data: fd,
+    processData: false,
+    method: "post",
+    contentType: false,
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "X-CSRFToken",
+        $('input[name="csrfmiddlewaretoken"]').val()
+      );
+    },
+    success: function(data) {
+      alert(data.msg)
+
+    }
+  });
+
+
+}
+function webVersionUpload(program_id){
+  var fd =  new FormData($("#webvideoUploadForm"+program_id)[0]);
+  fd.append("program_id",  program_id);
+<!--  $.preloader.start({ modal: true });-->
+  $.ajax({
+    url: "/videomanagement/webupload/",
+    data: fd,
+    processData: false,
+    method: "post",
+    contentType: false,
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "X-CSRFToken",
+        $('input[name="csrfmiddlewaretoken"]').val()
+      );
+    },
+    success: function(data) {
+      alert(data.msg)
+
+    }
+  });
+
+
+}
+
+$(document).on("click", "#programSubmit", function() {
+    alert()
+  var fd = new FormData($("#videoUploadForm")[0]);
+  fd.append("yakshaname",  $('#yakshaname').val());
+  fd.append("description",  $('#description').val());
+  fd.append("amount",  $('#amount').val());
+
+  console.log(fd)
+<!--  $.preloader.start({ modal: true });-->
+  $.ajax({
+    url: "/videomanagement/videoupload/",
+    data: fd,
+    processData: false,
+    method: "post",
+    contentType: false,
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "X-CSRFToken",
+        $('input[name="csrfmiddlewaretoken"]').val()
+      );
+    },
+    success: function(data) {
+      alert(data.msg)
+
+    }
+  });
+
+
+});
+
+<!--$(document).on("click", "#videoUpload1", function() {-->
+<!--  var fd = new FormData($("#videoUploadForm1")[0]);-->
+<!--  fd.append("video_id",  $('#video_id').val();-->
+
+
+<!--&lt;!&ndash;  $.preloader.start({ modal: true });&ndash;&gt;-->
+<!--  $.ajax({-->
+<!--    url: "/videomanagement/videoupload1/",-->
+<!--    data: fd,-->
+<!--    processData: false,-->
+<!--    method: "post",-->
+<!--    contentType: false,-->
+<!--    beforeSend: function(xhr) {-->
+<!--      xhr.setRequestHeader(-->
+<!--        "X-CSRFToken",-->
+<!--        $('input[name="csrfmiddlewaretoken"]').val()-->
+<!--      );-->
+<!--    },-->
+<!--    success: function(data) {-->
+<!--      alert(data.msg)-->
+
+<!--    }-->
+<!--  });-->
+
+
+<!--});-->
+$("#programTab").click(function() {
+   $(".NewprogramTab").removeClass("displayBlock");
+    $(".NewprogramTab").addClass("displayNone");
+   $(".programTab").removeClass("displayNone");
+ if (!$(this).hasClass("active")) {
+    $("#programTab").addClass("active");
+    $("#NewprogramTab").removeClass("active");
+}
+  });
+  $("#NewprogramTab").click(function() {
+      $(".programTab").removeClass("displayBlock");
+    $(".programTab").addClass("displayNone");
+   $(".NewprogramTab").removeClass("displayNone");
+ if (!$(this).hasClass("active")) {
+    $("#NewprogramTab").addClass("active");
+    $("#programTab").removeClass("active");
+}
+ });
+
+
+ function openvideo(video_path){
+ var video = document.getElementById('video');
+var source = document.createElement('source');
+
+source.setAttribute('src', video_path);
+
+video.appendChild(source);
+video.play();
+        $('#videoModal').modal('show')
+    }
+
+function logout(){
+ $.ajax({
+    url: "/videomanagement/logout/",
+    processData: false,
+    method: "get",
+    contentType: false,
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "X-CSRFToken",
+        $('input[name="csrfmiddlewaretoken"]').val()
+      );
+    },
+    success: function(data) {
+      window.location.href = "/videomanagement/login/";
+
+    }
+  });
+}
+</script>
+</html>
