@@ -120,7 +120,7 @@
 <form action="/videomanagement/paymentsuccess/" method="POST">
     <script
         src="https://checkout.razorpay.com/v1/checkout.js"
-        data-key="rzp_test_rtYqPGP7pemH2e"
+        data-key="rzp_live_TSQmjm9KQDT2gs"
         data-amount="{{videos.amount}}"
         data-currency="INR"
         data-order_id="{{payment.id}}"
@@ -147,47 +147,47 @@
 </div>
 
 
+    <div class="displayNone premiumTab">
+        <div class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
+            <!-- Controls -->
+            <div class="d-flex justify-content-center mb-4">
 
-<div  class="displayNone premiumTab">
-<div
-    class="carousel slide carousel-dark text-center"
-    data-mdb-ride="carousel">
-    <!-- Controls -->
-    <div class="d-flex justify-content-center mb-4">
-
-    </div>
-    <!-- Inner -->
-    <div class="carousel-inner py-4">
-      <!-- Single item -->
-      <div class="carousel-item active">
-        <div class="container">
-          <div class="row">
-            {% for videos in premium_video %}
-            <div class="col-lg-6 col-sm-12 col-xs-12">
-              <div class="card">
-                <img
-                  src="{{videos.image_path}}"
-                  class="card-img-top"
-                  alt="..."
-                />
-              <br>
-              <button onclick="openvideo('{{videos.mbl_video_path}}')" class="btn btn-primary">Watch Mobile Version</button>
-
-                  <br>
-              <button  class="btn btn-primary" onclick="openvideo('  {{videos.web_video_path}}')">Watch Mobile Version</button>
-
-                </div>
-              </div>
             </div>
+            <!-- Inner -->
+            <div class="carousel-inner py-4">
+                <!-- Single item -->
+                <div class="carousel-item active">
+                    <div class="container">
+                        <div class="row">
+                            {% for videos in premium_video %}
+                            <div class="col-lg-6 col-sm-6 col-xs-6">
+                                <div class="card">
+                                    <img
+                                            src="{{videos.image_path}}"
+                                            class="card-img-top"
+                                            alt="..."
+                                    />
+                                    <br>
+                                    <button onclick="openvideo('{{videos.mbl_video_path}}')" class="btn btn-primary">
+                                        Watch Mobile Version
+                                    </button>
+
+                                    <br>
+                                    <button class="btn btn-primary" onclick="openvideo('  {{videos.web_video_path}}')">
+                                        Watch Mobile Version
+                                    </button>
+
+                                </div>
+                            </div>
 
                         {% endfor %}
 
-          </div>
-        </div>
-      </div>
+                    </div>
+                </div>
+            </div>
 
+        </div>
     </div>
-  </div>
 </div>
 
 

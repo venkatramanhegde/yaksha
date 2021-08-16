@@ -110,7 +110,7 @@ class PaymentView(LoginRequiredMixin, View):
     def get(self, request):
         #create razorpay client
         print(request.GET)
-        client = razorpay.Client(auth=('rzp_test_rtYqPGP7pemH2e', '5kuleWwB31SU8yPQbTTKN88b'))
+        client = razorpay.Client(auth=('rzp_live_TSQmjm9KQDT2gs', '61RRWMJxZ4pHOn2mlH2Z40hU'))
 
         # create order
         print(request.GET.get('video_id'))
