@@ -166,15 +166,15 @@
             <div class="col-lg-6 col-sm-12 col-xs-12">
               <div class="card">
                 <img
-                  src="/{{videos.image_path}}"
+                  src="{{videos.image_path}}"
                   class="card-img-top"
                   alt="..."
                 />
               <br>
-              <button onclick="openvideo('/{{videos.mbl_video_path}}')" class="btn btn-primary">Watch Mobile Version</button>
+              <button onclick="openvideo('{{videos.mbl_video_path}}')" class="btn btn-primary">Watch Mobile Version</button>
 
                   <br>
-              <button  class="btn btn-primary" onclick="openvideo('/{{videos.web_video_path}}')">Watch Mobile Version</button>
+              <button  class="btn btn-primary" onclick="openvideo('  {{videos.web_video_path}}')">Watch Mobile Version</button>
 
                 </div>
               </div>
@@ -189,12 +189,27 @@
     </div>
   </div>
 </div>
-<div class="modal" id="videoModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-        <video id="video" width="500" height="500" controls></video>
 
-  </div>
-</div>
+
+   <div class="modal" id="videoModal" role="dialog">
+      <div class="modal-dialog" style="max-width: 90% !important;">
+         <div class="modal-content">
+            <div>
+               <button type="button" class="close profile_cancel" data-dismiss="modal"
+                  style="font-size: 30px;margin-right: 12px;">&times;</button>
+            </div>
+
+            <div class="modal-body">
+               <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls
+                  preload="none" width="100%" height="100%" poster="" data-setup="{}">
+                  <source src="" type='video/mp4' />
+               </video>
+
+            </div>
+         </div>
+      </div>
+   </div>
+
    {%endif%}
 </body>
 <script>

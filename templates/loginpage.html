@@ -218,9 +218,18 @@ width:80%;
 <script>
 
         $(".loginSubmit").on('click', function(event){
+         email = $('#loginEmail').val();
+                 password = $('#loginPassword').val();
+         if (email == "" || password == "") {
+    $("#loginEmail").css("border-bottom", "red solid 1px");
+    $("#loginPassword").css("border-bottom", "red solid 1px");
+  }
+   else {
+
+
          data = {
-                 email : $('#loginEmail').val(),
-                 password : $('#loginPassword').val(),
+                 email :email,
+                 password : password,
 
                 },
           $.ajax({
@@ -244,16 +253,28 @@ width:80%;
          });
 
 
-
+}
                  });
 
 
          $('#loginSubmit').on('click', function(e){
+
+                 first_name = $('#first_name').val();
+                 email = $('#email').val();
+                 password = $('#password').val();
+                 phone_number = $('#phone_number').val();
+         if (email == "" || password == "" || first_name == "" || phone_number == "") {
+    $("#first_name").css("border-bottom", "red solid 1px");
+    $("#email").css("border-bottom", "red solid 1px");
+     $("#password").css("border-bottom", "red solid 1px");
+    $("#phone_number").css("border-bottom", "red solid 1px");
+  }
+   else {
          data = {
-                 first_name : $('#first_name').val(),
-                 email : $('#email').val(),
-                 password : $('#password').val(),
-                 phone_number : $('#phone_number').val(),
+                 first_name : first_name,
+                 email : email,
+                 password :password,
+                 phone_number : phone_number,
 
                 },
           $.ajax({
@@ -272,7 +293,7 @@ width:80%;
          });
 
 
-
+}
                  });
 
      function opensigninform(){

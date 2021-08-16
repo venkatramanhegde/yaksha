@@ -98,98 +98,122 @@
 
 <!--   </form>-->
 
-<div  class="programTab">
+   <div class="programTab">
 
-  <div
-    id="carouselMultiItemExample"
-    class="carousel slide carousel-dark text-center"
-    data-mdb-ride="carousel">
-    <!-- Controls -->
-    <div class="d-flex justify-content-center mb-4">
-
-    </div>
-    <!-- Inner -->
-    <div class="carousel-inner py-4">
-      <!-- Single item -->
-      <div class="carousel-item active">
-        <div class="container">
-          <div class="row">
-            {% for videos in videos %}
-            <div class="col-lg-6 col-sm-12 col-xs-12">
-              <div class="card">
-                <img
-                  src="{{videos.image_path}}"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Rs.{{videos.amount}}</h5>
-                  <p class="card-text">
-                    {{videos.description}}
-                  </p>
-                    <h5 class="card-title">
-                    Total Buy : {{videos.total_buy}}
-                  </h5>
-                </div>
- <div class="row">
-            <div class="col-lg-6 col-sm-6 col-xs-6">
- <form onchange="mblVersionUpload({{videos.id}})" id="mblvideoUploadForm{{videos.id}}">
-          <label class="btn btn-primary width200" for="mblvideoUpload{{videos.id}}">Upload Mobile Version</label>
-          <input class="c1 hidden" type="file" hidden id="mblvideoUpload{{videos.id}}" name="docfile"
-          title="Upload pamphlet">
-      </form>
-            </div>
-                 <div class="col-lg-6 col-sm-6 col-xs-6">
-
-                   {% if videos.mbl_video_path  %}
-                        <button onclick="openvideo('{{videos.mbl_video_path}}')" class="btn btn-primary width200">Watch Mobile Version</button>
-                    {%endif%}
-            </div>
-     <div>
-     </div>
-
-         <br>
-<div class="row">
-            <div class="col-lg-6 col-sm-6 col-xs-6">
-                     <form onchange="webVersionUpload({{videos.id}})" id="webvideoUploadForm{{videos.id}}">
-                      <label class="btn btn-primary width200" for="webvideoUploadForm{{videos.id}}">Upload Web Version</label>
-          <input class="c1 hidden" type="file" hidden id="webvideoUpload{{videos.id}}"  name="docfile"
-          title="Upload pamphlet">
-      </form>
-
-            </div>
-           <div class="col-lg-6 col-sm-6 col-xs-6">
-
-    {% if videos.web_video_path  %}
-                        <button  class="btn btn-primary width200" onclick="openvideo('{{videos.web_video_path}}')">Watch Web Version</button>
-                    {%endif%}
+       <div
+               id="carouselMultiItemExample"
+               class="carousel slide carousel-dark text-center"
+               data-mdb-ride="carousel">
+           <!-- Controls -->
+           <div class="d-flex justify-content-center mb-4">
 
            </div>
-</div>
-<!--                  <a onclick="mblVersionUpload({{videos.id}})" class="btn btn-primary">Upload Mobile Version</a>-->
-<!--                  <a onclick="webVersionUpload({{videos.id}})" class="btn btn-primary">Upload Web Version</a>-->
+           <!-- Inner -->
+           <div class="carousel-inner py-4">
+               <!-- Single item -->
+               <div class="carousel-item active">
+                   <div class="container">
+                       <div class="row">
+                           {% for videos in videos %}
+                           <div class="col-lg-6 col-sm-6 col-xs-12">
+                               <div class="card">
+                                   <img
+                                           src="{{videos.image_path}}"
+                                           class="card-img-top"
+                                           alt="..."
+                                   />
+                                   <div class="card-body">
+                                       <h5 class="card-title">Rs.{{videos.amount}}</h5>
+                                       <p class="card-text">
+                                           {{videos.description}}
+                                       </p>
+                                       <h5 class="card-title">
+                                           Total Buy : {{videos.total_buy}}
+                                       </h5>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-lg-6 col-sm-6 col-xs-6">
+                                           <form onchange="mblVersionUpload({{videos.id}})"
+                                                 id="mblvideoUploadForm{{videos.id}}">
+                                               <label class="btn btn-primary width200"
+                                                      for="mblvideoUpload{{videos.id}}">Upload Mobile Version</label>
+                                               <input class="c1 hidden" type="file" hidden
+                                                      id="mblvideoUpload{{videos.id}}" name="docfile"
+                                                      title="Upload pamphlet">
+                                           </form>
+                                       </div>
+                                       <div class="col-lg-6 col-sm-6 col-xs-6">
 
-                </div>
-              </div>
+                                           {% if videos.mbl_video_path %}
+                                           <button onclick="openvideo('{{videos.mbl_video_path}}')"
+                                                   class="btn btn-primary width200">Watch Mobile Version
+                                           </button>
+                                           {%endif%}
+                                       </div>
+                                   </div>
+                                       <br>
+                                   <div class="row">
+                                       <div class="col-lg-6 col-sm-6 col-xs-6">
+                                           <form onchange="webVersionUpload({{videos.id}})"
+                                                 id="webvideoUploadForm{{videos.id}}">
+                                               <label class="btn btn-primary width200"
+                                                      for="webvideoUploadForm{{videos.id}}">Upload Web
+                                                   Version</label>
+                                               <input class="c1 hidden" type="file" hidden
+                                                      id="webvideoUpload{{videos.id}}" name="docfile"
+                                                      title="Upload pamphlet">
+                                           </form>
+                                       </div>
+                                       <div class="col-lg-6 col-sm-6 col-xs-6">
+
+                                           {% if videos.web_video_path %}
+                                           <button class="btn btn-primary width200"
+                                                   onclick="openvideo('{{videos.web_video_path}}')">Watch Web
+                                               Version
+                                           </button>
+                                           {%endif%}
+
+                                       </div>
+                                   </div>
+                                       <!--                  <a onclick="mblVersionUpload({{videos.id}})" class="btn btn-primary">Upload Mobile Version</a>-->
+                                       <!--                  <a onclick="webVersionUpload({{videos.id}})" class="btn btn-primary">Upload Web Version</a>-->
+
+                                   </div>
+                           </div>
+                           {% endfor %}
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+
+    <div class="modal" id="videoModal" role="dialog">
+      <div class="modal-dialog" style="max-width: 90% !important;">
+         <div class="modal-content">
+            <div>
+               <button type="button" class="close profile_cancel" data-dismiss="modal"
+                  style="font-size: 30px;margin-right: 12px;">&times;</button>
             </div>
 
-                        {% endfor %}
+            <div class="modal-body">
+               <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls
+                  preload="none" width="100%" height="100%" poster="" data-setup="{}">
+                  <source src="" type='video/mp4' />
+               </video>
 
-          </div>
-        </div>
+            </div>
+         </div>
       </div>
-
-    </div>
-  </div>
-</div>
+   </div>
 
 
-<div class="modal" id="videoModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-        <video id="video" width="500" height="500" controls></video>
+<!--<div class="modal" id="videoModal" tabindex="-1" role="dialog">-->
+<!--  <div class="modal-dialog" role="document">-->
+<!--        <video id="video" width="500" height="500" controls></video>-->
 
-  </div>
-</div>
+<!--  </div>-->
+<!--</div>-->
                     {%endif%}
 
 </body>
