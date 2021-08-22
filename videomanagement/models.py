@@ -37,3 +37,16 @@ class VideoOrders(models.Model):
     order_id = models.CharField(max_length=100, blank=True)
     razorpay_payment_id = models.CharField(max_length=100, blank=True)
     paid = models.BooleanField(default=False)
+
+
+class UserProgramAssociation(models.Model):
+    user = models.ForeignKey(User, on_delete=False)
+    video = models.ForeignKey(Programs, on_delete=False)
+    pamphlet_path = models.FileField(max_length=1000, null=True)
+    program_title = models.CharField(max_length=100, null=True)
+    have_access = models.BooleanField(default=False)
+
+
+class OtpVerification(models.Model):
+    email = models.EmailField(max_length=100, null=True, blank=True, unique=True)
+    otp = models.IntegerField()

@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
 
         img {
@@ -41,14 +45,100 @@
   background-color: #ddd;
   color: black;
 }
+body, html {
+    height: 100%;
+    width:100%;
+    text-align: center;
+    background:#dcdcdc;
+  margin:0;
+  padding:0;
+  position:relative;
+}
+h1 {
+  color:#4a4a4a;
+  text-align:center;
+}
+
+
+.loader {
+  margin: 100px auto;
+  font-size: 25px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: load5 1.1s infinite ease;
+  animation: load5 1.1s infinite ease;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+@-webkit-keyframes load5 {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em #ffffff, 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.5), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7);
+  }
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.7), 1.8em -1.8em 0 0em #ffffff, 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5);
+  }
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.5), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7), 2.5em 0em 0 0em #ffffff, 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5), 2.5em 0em 0 0em rgba(255, 255, 255, 0.7), 1.75em 1.75em 0 0em #ffffff, 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.5), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7), 0em 2.5em 0 0em #ffffff, -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.5), 0em 2.5em 0 0em rgba(255, 255, 255, 0.7), -1.8em 1.8em 0 0em #ffffff, -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.5), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7), -2.6em 0em 0 0em #ffffff, -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5), -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
+  }
+}
+@keyframes load5 {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em #ffffff, 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.5), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7);
+  }
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.7), 1.8em -1.8em 0 0em #ffffff, 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5);
+  }
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.5), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.7), 2.5em 0em 0 0em #ffffff, 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.5), 2.5em 0em 0 0em rgba(255, 255, 255, 0.7), 1.75em 1.75em 0 0em #ffffff, 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.5), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.7), 0em 2.5em 0 0em #ffffff, -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.2), -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.5), 0em 2.5em 0 0em rgba(255, 255, 255, 0.7), -1.8em 1.8em 0 0em #ffffff, -2.6em 0em 0 0em rgba(255, 255, 255, 0.2), -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.5), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.7), -2.6em 0em 0 0em #ffffff, -1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2);
+  }
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(255, 255, 255, 0.2), 1.8em -1.8em 0 0em rgba(255, 255, 255, 0.2), 2.5em 0em 0 0em rgba(255, 255, 255, 0.2), 1.75em 1.75em 0 0em rgba(255, 255, 255, 0.2), 0em 2.5em 0 0em rgba(255, 255, 255, 0.2), -1.8em 1.8em 0 0em rgba(255, 255, 255, 0.5), -2.6em 0em 0 0em rgba(255, 255, 255, 0.7), -1.8em -1.8em 0 0em #ffffff;
+  }
+}
+
 
 </style>
 <body>
    {% if user.is_admin %}
-
+<div class="mainPage">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="nav-link active" id="programTab">Programs</a>
         <a class="nav-link" id="NewprogramTab">Create New Programs</a>
+        <a class="nav-link" id="UserManagement">User Management</a>
+
         <button class="btn logout btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">logout</button>
 </nav>
 <!--<div class="topnav">-->
@@ -99,7 +189,6 @@
 <!--   </form>-->
 
    <div class="programTab">
-
        <div
                id="carouselMultiItemExample"
                class="carousel slide carousel-dark text-center"
@@ -123,12 +212,14 @@
                                            alt="..."
                                    />
                                    <div class="card-body">
-                                       <h5 class="card-title">Rs.{{videos.amount}}</h5>
+                                       <h5 class="card-title"> {{videos.program_title}} (Rs.{{videos.amount}})</h5>
                                        <p class="card-text">
                                            {{videos.description}}
                                        </p>
                                        <h5 class="card-title">
                                            Total Buy : {{videos.total_buy}}
+                                           <i class="fa fa-trash-o" onclick="deleteProgram({{videos.id}})" style="font-size:24px;color:red"></i>
+
                                        </h5>
                                    </div>
                                    <div class="row">
@@ -154,15 +245,16 @@
                                        <br>
                                    <div class="row">
                                        <div class="col-lg-6 col-sm-6 col-xs-6">
-                                           <form onchange="webVersionUpload({{videos.id}})"
+
+                                            <form onchange="webVersionUpload({{videos.id}})"
                                                  id="webvideoUploadForm{{videos.id}}">
                                                <label class="btn btn-primary width200"
-                                                      for="webvideoUploadForm{{videos.id}}">Upload Web
-                                                   Version</label>
+                                                      for="webvideoUpload{{videos.id}}">Upload Web Version</label>
                                                <input class="c1 hidden" type="file" hidden
                                                       id="webvideoUpload{{videos.id}}" name="docfile"
                                                       title="Upload pamphlet">
                                            </form>
+                                           <br>
                                        </div>
                                        <div class="col-lg-6 col-sm-6 col-xs-6">
 
@@ -174,6 +266,9 @@
                                            {%endif%}
 
                                        </div>
+                                   </div>
+                                   <div>
+
                                    </div>
                                        <!--                  <a onclick="mblVersionUpload({{videos.id}})" class="btn btn-primary">Upload Mobile Version</a>-->
                                        <!--                  <a onclick="webVersionUpload({{videos.id}})" class="btn btn-primary">Upload Web Version</a>-->
@@ -187,6 +282,59 @@
            </div>
        </div>
    </div>
+
+
+   <div class="userManagementTab displayNone" id="userManagementTab">
+       <table style="width:100%">
+          <tr>
+            <th>Firstname</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Video Management</th>
+          </tr>
+       {% for users in user_list %}
+          <tr>
+            <td>{{users.name}}</td>
+            <td>{{users.email}}</td>
+            <td>{{users.phone_number}}</td>
+            <td><button onclick="getUserProgramsAccess({{users.id}})">Video management</button></td>
+
+          </tr>
+       {% endfor %}
+
+        </table>
+
+   </div>
+
+   <div class="displayNone userVideoManagementTab" id="userVideoManagementTab">
+       <div class="carousel-inner py-4">
+           <div class="carousel-item active">
+               <div class="container">
+                   <div id="videoAccessPage" class="row">
+
+
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+
+<!--                       <div class="col-lg-3 col-sm-3 col-xs-6">-->
+<!--                           <div class="card">-->
+<!--                               <img-->
+<!--                                       src="{{videos.image_path}}"-->
+<!--                                       class="card-img-top"-->
+<!--                                       alt="..."-->
+<!--                               />-->
+<!--                               <div class="card-body">-->
+<!--                                   <h5 class="card-title">{{videos.program_title}}</h5>-->
+<!--                                    <button class="btn btn-primary"-->
+<!--                                           onclick="giveAccess('{{videos.web_video_path}}')">Give Access-->
+<!--                                   </button>-->
+<!--                               </div>-->
+<!--                           </div>-->
+<!--                        </div>-->
+
 
     <div class="modal" id="videoModal" role="dialog">
       <div class="modal-dialog" style="max-width: 90% !important;">
@@ -207,7 +355,8 @@
       </div>
    </div>
 
-
+</div>
+<div class="loader displayNone">Loading...</div>
 <!--<div class="modal" id="videoModal" tabindex="-1" role="dialog">-->
 <!--  <div class="modal-dialog" role="document">-->
 <!--        <video id="video" width="500" height="500" controls></video>-->
@@ -218,11 +367,15 @@
 
 </body>
 <script>
+
+
 function mblVersionUpload(program_id){
+
+    $(".mainPage").removeClass("displayBlock");
+    $(".mainPage").addClass("displayNone");
 
   var fd =  new FormData($("#mblvideoUploadForm"+program_id)[0]);
   fd.append("program_id",  program_id);
-<!--  $.preloader.start({ modal: true });-->
   $.ajax({
     url: "/videomanagement/mblupload/",
     data: fd,
@@ -236,8 +389,10 @@ function mblVersionUpload(program_id){
       );
     },
     success: function(data) {
-      alert(data.msg)
-
+        $(".loader").removeClass("displayBlock");
+        $(".loader").addClass("displayNone");
+        $(".mainPage").addClass("displayBlock");
+        $(".mainPage").removeClass("displayNone");
     }
   });
 
@@ -246,7 +401,6 @@ function mblVersionUpload(program_id){
 function webVersionUpload(program_id){
   var fd =  new FormData($("#webvideoUploadForm"+program_id)[0]);
   fd.append("program_id",  program_id);
-<!--  $.preloader.start({ modal: true });-->
   $.ajax({
     url: "/videomanagement/webupload/",
     data: fd,
@@ -260,7 +414,6 @@ function webVersionUpload(program_id){
       );
     },
     success: function(data) {
-      alert(data.msg)
 
     }
   });
@@ -269,14 +422,12 @@ function webVersionUpload(program_id){
 }
 
 $(document).on("click", "#programSubmit", function() {
-    alert()
   var fd = new FormData($("#videoUploadForm")[0]);
   fd.append("yakshaname",  $('#yakshaname').val());
   fd.append("description",  $('#description').val());
   fd.append("amount",  $('#amount').val());
 
   console.log(fd)
-<!--  $.preloader.start({ modal: true });-->
   $.ajax({
     url: "/videomanagement/videoupload/",
     data: fd,
@@ -290,7 +441,6 @@ $(document).on("click", "#programSubmit", function() {
       );
     },
     success: function(data) {
-      alert(data.msg)
 
     }
   });
@@ -298,50 +448,49 @@ $(document).on("click", "#programSubmit", function() {
 
 });
 
-<!--$(document).on("click", "#videoUpload1", function() {-->
-<!--  var fd = new FormData($("#videoUploadForm1")[0]);-->
-<!--  fd.append("video_id",  $('#video_id').val();-->
 
-
-<!--&lt;!&ndash;  $.preloader.start({ modal: true });&ndash;&gt;-->
-<!--  $.ajax({-->
-<!--    url: "/videomanagement/videoupload1/",-->
-<!--    data: fd,-->
-<!--    processData: false,-->
-<!--    method: "post",-->
-<!--    contentType: false,-->
-<!--    beforeSend: function(xhr) {-->
-<!--      xhr.setRequestHeader(-->
-<!--        "X-CSRFToken",-->
-<!--        $('input[name="csrfmiddlewaretoken"]').val()-->
-<!--      );-->
-<!--    },-->
-<!--    success: function(data) {-->
-<!--      alert(data.msg)-->
-
-<!--    }-->
-<!--  });-->
-
-
-<!--});-->
 $("#programTab").click(function() {
    $(".NewprogramTab").removeClass("displayBlock");
-    $(".NewprogramTab").addClass("displayNone");
+   $(".NewprogramTab").addClass("displayNone");
    $(".programTab").removeClass("displayNone");
+   $(".userManagementTab").removeClass("displayBlock");
+   $(".userManagementTab").addClass("displayNone");
+
+
  if (!$(this).hasClass("active")) {
     $("#programTab").addClass("active");
-    $("#NewprogramTab").removeClass("active");
-}
+    $(this).siblings().removeClass("active");
+ }
   });
   $("#NewprogramTab").click(function() {
-      $(".programTab").removeClass("displayBlock");
-    $(".programTab").addClass("displayNone");
+   $(".programTab").removeClass("displayBlock");
+   $(".programTab").addClass("displayNone");
    $(".NewprogramTab").removeClass("displayNone");
+   $(".userManagementTab").removeClass("displayBlock");
+   $(".userManagementTab").addClass("displayNone");
  if (!$(this).hasClass("active")) {
     $("#NewprogramTab").addClass("active");
-    $("#programTab").removeClass("active");
-}
+    $(this).siblings().removeClass("active");
+    }
  });
+
+
+    $("#UserManagement").click(function() {
+   $(".programTab").removeClass("displayBlock");
+   $(".programTab").addClass("displayNone");
+   $(".userManagementTab").removeClass("displayNone");
+   $(".NewprogramTab").removeClass("displayBlock");
+   $(".NewprogramTab").addClass("displayNone");
+
+
+  if (!$(this).hasClass("active")) {
+    $("#UserManagement").addClass("active");
+
+    $(this)
+      .siblings()
+      .removeClass("active");
+  }
+});
 
 
  function openvideo(video_path){
@@ -354,6 +503,137 @@ video.appendChild(source);
 video.play();
         $('#videoModal').modal('show')
     }
+
+function getUserProgramsAccess(user_id){
+   var fd = new FormData();
+  fd.append("user_id", user_id);
+    $.ajax({
+        url: "/videomanagement/videoaccesslist/",
+        data: fd,
+        processData: false,
+        method: "post",
+        contentType: false,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(
+            "X-CSRFToken",
+            $('input[name="csrfmiddlewaretoken"]').val()
+          );
+        },
+        success: function(data) {
+                $(".userManagementTab").removeClass("displayBlock");
+                $(".userManagementTab").addClass("displayNone");
+                $(".userVideoManagementTab").removeClass("displayNone");
+                $(".userVideoManagementTab").addClass("displayBlock");
+                $("#videoAccessPage").empty();
+
+            $.each(data.video_access_list, function(key, value) {
+                console.log(key, value)
+              if(value["have_access"]==false) {
+                $("#videoAccessPage").append('<div class="col-lg-4 col-sm-4 col-xs-12"><div class="card"><img src=" ' +
+                 value["pamphlet_path"] +
+                 ' " class="card-img-top" alt="..." />  <div class="card-body"> <h5 class="card-title"> ' +
+                 value["program_title"] +
+                 ' </h5><button class="btn btn-primary"  onclick="giveAccess(' +
+                 value["video_id"]+
+                 ' , ' + user_id + ' )">Give Access </div> </div> </div>');
+                 }
+              else{
+                $("#videoAccessPage").append('<div class="col-lg-4 col-sm-4 col-xs-12"><div class="card"><img src=" ' +
+                 value["pamphlet_path"] +
+                 ' " class="card-img-top" alt="..." />  <div class="card-body"> <h5 class="card-title"> ' +
+                 value["program_title"] +
+                 ' </h5><button class="btn btn-primary"  onclick="removeAccess(' +
+                 value["video_id"] +
+                 ' , ' + user_id +')">Remove Access </div> </div> </div>');
+
+
+              }
+
+
+            });
+
+      }
+
+
+      });
+}
+
+
+function giveAccess(video_id, user_id){
+    var data = new FormData();
+    data.append("user_id", user_id);
+    data.append("video_id", video_id);
+       $.ajax({
+        url: "/videomanagement/givevideoaccess/",
+        data: data,
+        processData: false,
+        method: "post",
+        contentType: false,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(
+            "X-CSRFToken",
+            $('input[name="csrfmiddlewaretoken"]').val()
+          );
+        },
+        success: function(data) {
+            toastr.success(data.msg);
+            getUserProgramsAccess(user_id)
+
+        }
+  });
+}
+
+function removeAccess(video_id, user_id){
+    var data = new FormData();
+    data.append("user_id", user_id);
+    data.append("video_id", video_id);
+    $.ajax({
+        url: "/videomanagement/removevideoaccess/",
+        data: data,
+        processData: false,
+        method: "post",
+        contentType: false,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(
+            "X-CSRFToken",
+            $('input[name="csrfmiddlewaretoken"]').val()
+          );
+        },
+        success: function(data) {
+            toastr.success(data.msg);
+            getUserProgramsAccess(user_id)
+
+        }
+  });
+}
+
+function deleteProgram(program_id){
+
+    var data = new FormData();
+    data.append("program_id", program_id);
+    $.ajax({
+        url: "/videomanagement/deleteprogram/",
+        data: data,
+        processData: false,
+        method: "post",
+        contentType: false,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(
+            "X-CSRFToken",
+            $('input[name="csrfmiddlewaretoken"]').val()
+          );
+        },
+        success: function(data) {
+            toastr.success("Program deleted successfully");
+            location.reload();
+
+
+        }
+  });
+
+
+}
+
 
 function logout(){
  $.ajax({

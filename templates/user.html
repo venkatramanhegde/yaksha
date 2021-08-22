@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 </head>
 <style>
     img {
@@ -66,6 +67,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="nav-link active" id="programTab">Programs</a>
         <a class="nav-link" id="premiumTab">Premium Program</a>
+        <a class="nav-link" id="specialProgram">Special Program</a>
+
         <button class="btn logout btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">logout</button>
 </nav>
 
@@ -93,7 +96,7 @@
         <div class="container">
           <div class="row">
             {% for videos in videos %}
-            <div class="col-lg-6 col-sm-12 col-xs-12">
+            <div class="col-lg-4 col-sm-4 col-xs-6">
               <div class="card">
                 <img
                   src="{{videos.image_path}}"
@@ -120,7 +123,7 @@
 <form action="/videomanagement/paymentsuccess/" method="POST">
     <script
         src="https://checkout.razorpay.com/v1/checkout.js"
-        data-key="rzp_live_TSQmjm9KQDT2gs"
+        data-key="{{razorpay_key}}"
         data-amount="{{videos.amount}}"
         data-currency="INR"
         data-order_id="{{payment.id}}"
@@ -160,7 +163,7 @@
                     <div class="container">
                         <div class="row">
                             {% for videos in premium_video %}
-                            <div class="col-lg-6 col-sm-6 col-xs-6">
+                            <div class="col-lg-4 col-sm-4 col-xs-6">
                                 <div class="card">
                                     <img
                                             src="{{videos.image_path}}"
@@ -190,6 +193,20 @@
     </div>
 </div>
 
+<div class="specialProgram displayNone" id="specialProgramPage">
+     <div class="carousel-inner py-4">
+           <div class="carousel-item active">
+               <div class="container">
+                   <div id="videoAccessPage" class="row">
+
+
+                   </div>
+               </div>
+           </div>
+       </div>
+
+</div>
+
 
    <div class="modal" id="videoModal" role="dialog">
       <div class="modal-dialog" style="max-width: 90% !important;">
@@ -214,8 +231,6 @@
 </body>
 <script>
 function buyVideo(video_id){
-    alert()
-
 
    $.ajax({
     url: "/videomanagement/paymentorder/",
@@ -240,21 +255,29 @@ function buyVideo(video_id){
 
 $("#programTab").click(function() {
    $(".premiumTab").removeClass("displayBlock");
-    $(".premiumTab").addClass("displayNone");
+   $(".premiumTab").addClass("displayNone");
    $(".programTab").removeClass("displayNone");
- if (!$(this).hasClass("active")) {
-    $("#programTab").addClass("active");
-    $("#premiumTab").removeClass("active");
-}
+   $(".specialProgram").addClass("displayNone");
+   $(".specialProgram").removeClass("displayBlock");
+    if (!$(this).hasClass("active")) {
+        $("#programTab").addClass("active");
+        $(this).siblings().removeClass("active");
+    }
+
   });
   $("#premiumTab").click(function() {
       $(".programTab").removeClass("displayBlock");
-    $(".programTab").addClass("displayNone");
-   $(".premiumTab").removeClass("displayNone");
- if (!$(this).hasClass("active")) {
+      $(".programTab").addClass("displayNone");
+      $(".premiumTab").removeClass("displayNone");
+      $(".premiumTab").addClass("displayBlock");
+
+      $(".specialProgram").addClass("displayNone");
+      $(".specialProgram").removeClass("displayBlock");
+   if (!$(this).hasClass("active")) {
     $("#premiumTab").addClass("active");
-    $("#programTab").removeClass("active");
-}
+    $(this).siblings().removeClass("active");
+    }
+
  });
 
  function openvideo(video_path){
@@ -267,6 +290,69 @@ video.appendChild(source);
 video.play();
         $('#videoModal').modal('show')
     }
+
+
+$("#specialProgram").click(function() {
+          $(".specialProgram").removeClass("displayNone");
+          $(".programTab").addClass("displayNone");
+          $(".premiumTab").removeClass("displayBlock");
+          $(".programTab").addClass("displayNone");
+          $(".programTab").removeClass("displayBlock");
+
+          if (!$(this).hasClass("active")) {
+            $("#specialProgram").addClass("active");
+            $(this).siblings().removeClass("active");
+          }
+
+
+   var fd = new FormData();
+    $.ajax({
+        url: "/videomanagement/specialvideolist/",
+        data: fd,
+        processData: false,
+        method: "get",
+        contentType: false,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(
+            "X-CSRFToken",
+            $('input[name="csrfmiddlewaretoken"]').val()
+          );
+        },
+        success: function(data) {
+
+
+            $("#videoAccessPage").empty();
+            $.each(data.video_access_list, function(key, value) {
+                console.log(key, value)
+
+                $("#videoAccessPage").append('<div class="col-lg-4 col-sm-4 col-xs-12"><div class="card"><img src=" ' +
+                 value["pamphlet_path"] +
+                 ' " class="card-img-top" alt="..." />  <div class="card-body"> <h5 class="card-title"> ' +
+                 value["program_title"] +
+                 ' </h5><button class="btn btn-primary"  onclick="openvideo(' +
+                 value["video__web_video_path"]+
+                 ')">Watch Video</div> </div> </div>');
+
+
+
+
+            });
+
+      }
+
+
+      });
+  });
+
+
+
+
+
+
+
+
+
+
 
 function logout(){
  $.ajax({

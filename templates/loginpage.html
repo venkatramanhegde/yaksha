@@ -5,7 +5,8 @@
     <title>Title</title>
 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 </head>
 <style>
 body
@@ -50,7 +51,7 @@ font-weight:bold;
 color:white;
 text-decoration:underline;
 }
-.form_div input[type="text"],input[type="password"]
+.form_div input[type="text"],input[type="password"],input[type="number"]
 {
 width:230px;
 height:40px;
@@ -89,7 +90,7 @@ margin-left:25%;
 padding-left:0px;
 padding-right:0px;
 }
-.form_div input[type="text"],input[type="password"]
+.form_div input[type="text"],input[type="password"],input[type="number"]
 {
 width:80%;
 }
@@ -117,7 +118,7 @@ font-size:30px;
 width:60%;
 margin-left:20%;
 }
-.form_div input[type="text"],input[type="password"]
+.form_div input[type="text"],input[type="password"],input[type="number"]
 {
 width:80%;
 }
@@ -143,7 +144,7 @@ margin-left:5%;
 padding-left:0px;
 padding-right:0px;
 }
-.form_div input[type="text"],input[type="password"]
+.form_div input[type="text"],input[type="password"],input[type="number"]
 {
 width:80%;
 }
@@ -192,6 +193,10 @@ width:80%;
         <button class="button loginSubmit">LOGIN</button>
         <p></p>
         <button class="button" onclick="opensignupform()">SIGNUP</button>
+        <p></p>
+
+        <button  class="displayNone button forgotpassword" onclick="passwordgeneration()">forgot password</button>
+
 
     <!--    <input  class="loginSubmit" value="LOGIN"></p>-->
     </div>
@@ -202,9 +207,12 @@ width:80%;
     <div class="form_div">
     <p class="form_label">SIGNUP</p>
     <p><input id="first_name" type="text" placeholder="Enter Name"></p>
-    <p><input id="email" type="text" placeholder="Enter Email"></p>
+    <p><input id="email" type="text" name="email" placeholder="Enter Email"></p>
+    <p id="unique_email" class="displayNone" style="color : red">This Email already exits..!</p>
     <p><input id="phone_number" type="text" placeholder="Enter phone number"></p>
     <p><input id="password" type="password" placeholder="Password"></p>
+    <p><input id="otp" type="number" placeholder="OTP(sent to mail)"></p>
+
     <!--<p><input id="loginSubmit" value="SIGNUP"></p>-->
             <button class="button" id="loginSubmit">SIGNUP</button>
             <p></p>
@@ -217,9 +225,28 @@ width:80%;
 
 <script>
 
+$("input[name='email']").change(function () {
+      $.ajax({
+         url: "/videomanagement/ckeckmail/",
+         method: 'post',
+         data: { "email": $(this).val() },
+         success: function (data) {
+            if (!data.status) {
+               $('#unique_email').removeClass('displayNone');
+               $('#unique_email').addClass('displayBlock');
+               $('#e_id').val('')
+            } else {
+               $('#unique_email').removeClass('displayBlock');
+               $('#unique_email').addClass('displayNone');
+            }
+         }
+      });
+   })
+
+
         $(".loginSubmit").on('click', function(event){
          email = $('#loginEmail').val();
-                 password = $('#loginPassword').val();
+             password = $('#loginPassword').val();
          if (email == "" || password == "") {
     $("#loginEmail").css("border-bottom", "red solid 1px");
     $("#loginPassword").css("border-bottom", "red solid 1px");
@@ -242,6 +269,11 @@ width:80%;
             window.location.href = "/videomanagement/uploader/";
         } else if (data.msg == "user") {
             window.location.href = "/videomanagement/userpage/";
+        } else{
+             toastr.error("Invalid credentials");
+             $('.forgotpassword').removeClass('displayNone');
+               $('.forgotpassword').addClass('displayBlock');
+
         }
                       },
 
@@ -256,14 +288,29 @@ width:80%;
 }
                  });
 
-
+var otp_verified = false
          $('#loginSubmit').on('click', function(e){
-
                  first_name = $('#first_name').val();
                  email = $('#email').val();
                  password = $('#password').val();
                  phone_number = $('#phone_number').val();
-         if (email == "" || password == "" || first_name == "" || phone_number == "") {
+                 otp = $('#otp').val();
+                 data1 = {
+                 email : email,
+                 otp :otp,
+
+                },
+                 $.ajax({
+                    url: "/videomanagement/otpvarification/",
+                    method: 'post',
+                    data : data1,
+                   success: function(data){
+                            console.log(data)
+                            if (data.msg == true){
+                             toastr.success("opt verified successfully");
+                              if (email == "" || password == "" || first_name == "" || phone_number == "") {
+
+
     $("#first_name").css("border-bottom", "red solid 1px");
     $("#email").css("border-bottom", "red solid 1px");
      $("#password").css("border-bottom", "red solid 1px");
@@ -294,6 +341,24 @@ width:80%;
 
 
 }
+                             otp_verified = data.msg
+                            }
+                            else{
+                                otp_verified = false
+                                toastr.error("OTP verified fail, Please enter correct OTP");
+
+                            }
+                        },
+
+                        failure: function() {
+
+                        }
+
+
+                 });
+
+
+
                  });
 
      function opensigninform(){
@@ -307,8 +372,27 @@ width:80%;
     $(".signUpForm").removeClass("displayNone");
      }
 
+function passwordgeneration(){
+ $.ajax({
+         url: "/videomanagement/passwordsend/",
+         method: 'post',
+         data: { email: $('#loginEmail').val()},
+         success: function (data) {
+                          toastr.success("New password sent to your mail.")
 
+         }
+      });
+
+}
 
       </script>
 
 </html>
+<!-- $.ajax({-->
+<!--             url: "/videomanagement/passwordsend/",-->
+<!--             method: 'post',-->
+<!--             data: { "email": $(this).val() },-->
+<!--             success: function (data) {-->
+<!--               toastr.success("New password sent to your mail.")-->
+<!--             }-->
+<!--      });-->

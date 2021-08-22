@@ -1,6 +1,10 @@
 from django.conf.urls import url
 from .views import LoginView, CreateUser, UploaderPage, ProgramUpload, UserPage, PaymentView, \
-    PaymentSuccess, MobileUpload, WebUpload, Logout
+    PaymentSuccess, MobileUpload, WebUpload, Logout, VideoAccessView, GiveVideoAccessView,\
+    RemoveVideoAccessView, SpecialVideoListView, CheckMail, OtpVerificationView, \
+    PasswordGeneration, DeleteProgramView
+
+
 
 urlpatterns = [
 
@@ -14,5 +18,14 @@ urlpatterns = [
     url(r'^mblupload/', view=MobileUpload.as_view(), name="mobile-upload"),
     url(r'^webupload/', view=WebUpload.as_view(), name="web-upload"),
     url(r'^logout/', view=Logout.as_view(), name="logout"),
+    url(r'^videoaccesslist/', view=VideoAccessView.as_view(), name="video-access-list"),
+    url(r'^givevideoaccess/', view=GiveVideoAccessView.as_view(), name="give-video-access"),
+    url(r'^removevideoaccess/', view=RemoveVideoAccessView.as_view(), name="remove-video-access"),
+    url(r'^specialvideolist/', view=SpecialVideoListView.as_view(), name="special-video-list"),
+    url(r'^ckeckmail/$', view=CheckMail.as_view(), name='ckeckmail'),
+    url(r'^otpvarification/$', view=OtpVerificationView.as_view(), name='otp-varification'),
+    url(r'^passwordsend/$', view=PasswordGeneration.as_view(), name='otp-passwordsend'),
+    url(r'^deleteprogram/$', view=DeleteProgramView.as_view(), name='delete_program'),
 
 ]
+
