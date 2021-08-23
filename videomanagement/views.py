@@ -265,7 +265,7 @@ class SpecialVideoListView(View):
                                                               "video_id",
                                                               "program_title",
                                                               "have_access",
-                                                              "video__web_video_path"
+                                                              "video__mbl_video_path"
                                                               )
         print(video_access_list)
         data = {"video_access_list": list(video_access_list)}

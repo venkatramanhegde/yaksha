@@ -104,7 +104,7 @@
                   alt="..."
                 />
                 <div class="card-body">
-                  <h5 class="card-title">{{videos.amount}}</h5>
+                  <h5 class="card-title">{{videos.program_title}}  (RS.{{videos.amount}})</h5>
                   <p class="card-text">
                     {{videos.description}}
                   </p>
@@ -212,7 +212,7 @@
       <div class="modal-dialog" style="max-width: 90% !important;">
          <div class="modal-content">
             <div>
-               <button type="button" class="close profile_cancel" data-dismiss="modal"
+               <button type="button" onclick="videoClose()" class="close profile_cancel" data-dismiss="modal"
                   style="font-size: 30px;margin-right: 12px;">&times;</button>
             </div>
 
@@ -252,6 +252,12 @@ function buyVideo(video_id){
 
 }
 
+function videoClose(){
+var video = document.getElementById('video');
+video.pause();
+$('#videoModal').modal('hide')
+
+}
 
 $("#programTab").click(function() {
    $(".premiumTab").removeClass("displayBlock");
@@ -281,14 +287,14 @@ $("#programTab").click(function() {
  });
 
  function openvideo(video_path){
- var video = document.getElementById('video');
+var video = document.getElementById('video');
 var source = document.createElement('source');
 
 source.setAttribute('src', video_path);
 
 video.appendChild(source);
 video.play();
-        $('#videoModal').modal('show')
+$('#videoModal').modal('show')
     }
 
 
@@ -329,9 +335,9 @@ $("#specialProgram").click(function() {
                  value["pamphlet_path"] +
                  ' " class="card-img-top" alt="..." />  <div class="card-body"> <h5 class="card-title"> ' +
                  value["program_title"] +
-                 ' </h5><button class="btn btn-primary"  onclick="openvideo(' +
-                 value["video__web_video_path"]+
-                 ')">Watch Video</div> </div> </div>');
+                 ' </h5><button class="btn btn-primary" id="'+
+                  value["video__mbl_video_path"] +
+                 ' "  onclick="openvideo(this.id)">Watch Video</div> </div> </div>');
 
 
 
