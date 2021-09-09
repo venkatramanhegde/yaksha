@@ -128,7 +128,7 @@ class UploaderPage(LoginRequiredMixin, View):
 class UserPage(LoginRequiredMixin, View):
     login_url = '/videomanagement/login/'
     def get(self, request, *args, **kwargs):
-        videos = Programs.objects.all()
+        videos = Programs.objects.all().order_by("-amount")
         context = {'videos': videos}
         return render(request, "user.html", context)
 

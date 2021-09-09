@@ -97,8 +97,8 @@
         <div class="container">
           <div class="row">
             {% for videos in videos %}
-            <div onclick="openImageModel('{{videos.image_path}}')" class="col-lg-4 col-sm-4 col-xs-6">
-              <div class="card">
+            <div  class="col-lg-4 col-sm-4 col-xs-6">
+              <div onclick="openImageModel('{{videos.image_path}}')" class="card">
                 <img
                   src="{{videos.image_path}}"
                   class="card-img-top"
@@ -233,7 +233,7 @@
       <div class="modal-dialog" style="max-width: 80% !important;">
          <div class="modal-content">
             <div>
-               <button type="button" onclick="$(this).modal('hide')" class="close profile_cancel" data-dismiss="modal"
+               <button type="button" onclick="$('#programImageModal').modal('hide')" class="close profile_cancel" data-dismiss="modal"
                   style="font-size: 30px;margin-right: 12px;">&times;</button>
             </div>
            <div class="card">
