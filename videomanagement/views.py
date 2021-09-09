@@ -70,28 +70,48 @@ class CreateUser(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class ProgramUpload(View):
     def post(self, request):
-        file_obj = request.FILES.get('docfile', '')
-        cloud_filename = "media/programs/pamphlet/" + str(request.user.id) + '/' + file_obj.name
-        video_saving_path = AWS_URL + cloud_filename
-        session = boto3.session.Session(aws_access_key_id=AWS_ACCESS_KEY,
-                                        aws_secret_access_key=AWS_SECRET_KEY,
-                                        region_name='ap-south-1',
-                                        )
-        s3 = session.resource('s3')
-        s3.Bucket(AWS_STORAGE_BUCKET_NAME).put_object(Key=cloud_filename, Body=file_obj, ACL="public-read")
-        programs = Programs.objects.create(program_title=request.POST.get("yakshaname"),
-                             uploaded_by_id=request.user.id,
-                             description=request.POST.get("description"),
-                             amount=request.POST.get("amount"),
-                             image_path=video_saving_path
-                             )
-        user_list = User.objects.all()
-        for user in user_list:
-            UserProgramAssociation.objects.create(user_id=user.id,
-                                                  video_id=programs.id,
-                                                  program_title=request.POST.get("yakshaname"),
-                                                  pamphlet_path = video_saving_path
-                                                  )
+        try:
+            file_obj = request.FILES.get('docfile', '')
+            cloud_filename = "media/programs/pamphlet/" + str(request.user.id) + '/' + file_obj.name
+            video_saving_path = AWS_URL + cloud_filename
+            session = boto3.session.Session(aws_access_key_id=AWS_ACCESS_KEY,
+                                            aws_secret_access_key=AWS_SECRET_KEY,
+                                            region_name='ap-south-1',
+                                            )
+            s3 = session.resource('s3')
+            s3.Bucket(AWS_STORAGE_BUCKET_NAME).put_object(Key=cloud_filename, Body=file_obj, ACL="public-read")
+            image_find = True
+        except Exception:
+            image_find = False
+        if 'program_id' in request.POST:
+            print("inupdate")
+            if image_find:
+                programs = Programs.objects.filter(id=request.POST.get("program_id")).update(
+                                                    program_title=request.POST.get("yakshaname"),
+                                                    description=request.POST.get("description"),
+                                                    amount=request.POST.get("amount"),
+                                                    image_path=video_saving_path)
+            else:
+                programs = Programs.objects.filter(id=request.POST.get("program_id")).update(
+                                                    program_title=request.POST.get("yakshaname"),
+                                                    description=request.POST.get("description"),
+                                                    amount=request.POST.get("amount"))
+
+
+        else:
+            programs = Programs.objects.create(program_title=request.POST.get("yakshaname"),
+                                 uploaded_by_id=request.user.id,
+                                 description=request.POST.get("description"),
+                                 amount=request.POST.get("amount"),
+                                 image_path=video_saving_path
+                                 )
+            user_list = User.objects.all()
+            for user in user_list:
+                UserProgramAssociation.objects.create(user_id=user.id,
+                                                      video_id=programs.id,
+                                                      program_title=request.POST.get("yakshaname"),
+                                                      pamphlet_path = video_saving_path
+                                                      )
         data = {"msg": "video uploaded successfully"}
         return JsonResponse(data, safe=False)
 
@@ -176,6 +196,9 @@ class MobileUpload(View):
         file_obj = request.FILES.get('docfile', '')
         program_id = request.POST.get("program_id")
         cloud_filename = "media/programs/videos /" + str(request.user.id) + '/' + file_obj.name
+        import sys
+        size = sys.getsizeof(file_obj)
+        print(size, "this is sizeeeeee")
         video_saving_path = AWS_URL + cloud_filename
         print(video_saving_path)
         session = boto3.session.Session(aws_access_key_id=AWS_ACCESS_KEY,
@@ -185,6 +208,7 @@ class MobileUpload(View):
         s3 = session.resource('s3')
         s3.Bucket(AWS_STORAGE_BUCKET_NAME).put_object(Key=cloud_filename, Body=file_obj, ACL="public-read")
         Programs.objects.filter(id=program_id).update(mbl_video_path=video_saving_path)
+
         data = {"msg": "video uploaded successfully"}
         return JsonResponse(data, safe=False)
 
@@ -372,6 +396,29 @@ class DeleteProgramView(View):
         program_obj.delete()
         data = {"msg": "success"}
         return JsonResponse(data, safe=False)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class EditProgramView(View):
+    def post(self, request):
+        program_id = request.POST["program_id"]
+        program_obj = Programs.objects.filter(id=program_id).values("program_title", "description", "amount", "image_path")
+        data = {"program_obj": list(program_obj)}
+        return JsonResponse(data, safe=False)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ProgramQueriesView(View):
+    def post(self, request):
+        to_email_list = [EMAIL_HOST_USER]
+        subject = "query from " + request.POST.get("phone_number"), request.user.email
+        email_message = request.POST.get("queries")
+        user_email = EMAIL_HOST_USER
+        email = EmailMessage(subject, email_message, user_email, to=to_email_list)
+        email.send()
+        data = {"msg": "success"}
+        return JsonResponse(data, safe=False)
+
 
 
 

@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^', include("videomanagement.urls")),
     url(r'^videomanagement/', include("videomanagement.urls")),
 
 ]

@@ -9,7 +9,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <style>
 
         img {
@@ -219,7 +220,7 @@ h1 {
                                        <h5 class="card-title">
                                            Total Buy : {{videos.total_buy}}
                                            <i class="fa fa-trash-o" onclick="deleteProgram({{videos.id}})" style="font-size:24px;color:red"></i>
-
+                                           <i class="fa fa-edit" onclick="editProgram({{videos.id}})" style="font-size:24px;"></i>
                                        </h5>
                                    </div>
                                    <div class="row">
@@ -230,7 +231,7 @@ h1 {
                                                       for="mblvideoUpload{{videos.id}}">Upload Mobile Version</label>
                                                <input class="c1 hidden" type="file" hidden
                                                       id="mblvideoUpload{{videos.id}}" name="docfile"
-                                                      title="Upload pamphlet">
+                                                      title="Upload pamphlet" multiple>
                                            </form>
                                        </div>
                                        <div class="col-lg-6 col-sm-6 col-xs-6">
@@ -340,10 +341,9 @@ h1 {
       <div class="modal-dialog" style="max-width: 90% !important;">
          <div class="modal-content">
             <div>
-               <button type="button" class="close profile_cancel" data-dismiss="modal"
+               <button type="button" onclick="videoClose()" class="close profile_cancel" data-dismiss="modal"
                   style="font-size: 30px;margin-right: 12px;">&times;</button>
             </div>
-
             <div class="modal-body">
                <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls
                   preload="none" width="100%" height="100%" poster="" data-setup="{}">
@@ -356,6 +356,79 @@ h1 {
    </div>
 
 </div>
+
+    <div class="modal" id="programEdit" role="dialog">
+      <div class="modal-dialog" style="max-width: 90% !important;">
+         <div class="modal-content">
+            <div>
+               <button type="button" onclick="programEditClose()" class="close profile_cancel" data-dismiss="modal"
+                  style="font-size: 30px;margin-right: 12px;">&times;</button>
+            </div>
+
+            <div class="modal-body">
+               <div class="row">
+                      <div class="col-sm-1"></div>
+                      <div class="col-sm-8 border p-3">
+
+                    <div class="form-group">
+                      <label for="yakshaname">Program Name</label>
+                      <input type="email" class="form-control" id="yakshanameedit" aria-describedby="emailHelp" placeholder="Program Name">
+                    </div>
+                    <div class="form-group">
+                      <label for="description">Program Description</label>
+                      <textarea type="text" class="form-control" id="descriptionedit" placeholder="Program Description">
+                  </textarea>
+                    </div>
+                      <div class="form-group">
+                      <label for="amount">Amount</label>
+                      <input type="text" class="form-control" id="amountedit" placeholder="Amount">
+                          <input type="hidden" id="editProgramId">
+                    </div>
+
+                          <div class="carousel-inner py-4">
+               <!-- Single item -->
+               <div class="carousel-item active">
+                   <div class="container">
+                       <div class="row">
+                           <div class="col-lg-8 col-sm-8 col-xs-12">
+                               <div class="card">
+                                   <img id="editImage"
+                                           src = ""
+                                           class="card-img-top"
+                                           alt="..."
+                                   >
+
+                               </div>
+                           </div>
+                            <div class="col-lg-4 col-sm-4 col-xs-12">
+                                <br>
+                                <br>
+
+                                  <form id="videoUploadEditForm">
+                                       <label class="btn btn-primary" for="videoEditUpload">Edit Program Pamphlet</label>
+                                      <input class="c1" type="file" id="videoEditUpload" name="docfile" hidden
+                                      title="Upload pamphlet">
+                                  </form>
+                                <br>
+                                <br>
+
+                                <button type="submit" id="editProgram" class="btn btn-primary">Edit Program</button>
+
+                            </div>
+                       </div>
+                   </div>
+               </div>
+
+                  </div>
+                  </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</div>
+
+
 <div class="loader displayNone">Loading...</div>
 <!--<div class="modal" id="videoModal" tabindex="-1" role="dialog">-->
 <!--  <div class="modal-dialog" role="document">-->
@@ -369,12 +442,16 @@ h1 {
 <script>
 
 
+
 function mblVersionUpload(program_id){
 
     $(".mainPage").removeClass("displayBlock");
     $(".mainPage").addClass("displayNone");
 
+
+
   var fd =  new FormData($("#mblvideoUploadForm"+program_id)[0]);
+
   fd.append("program_id",  program_id);
   $.ajax({
     url: "/videomanagement/mblupload/",
@@ -441,13 +518,46 @@ $(document).on("click", "#programSubmit", function() {
       );
     },
     success: function(data) {
+            toastr.success("Program created successfully");
+            location.reload();
 
-    }
+        }
   });
 
 
 });
 
+
+$(document).on("click", "#editProgram", function() {
+  var fd = new FormData($("#videoUploadEditForm")[0]);
+  fd.append("yakshaname",  $('#yakshanameedit').val());
+  fd.append("description",  $('#descriptionedit').val());
+  fd.append("amount",  $('#amountedit').val());
+  fd.append("program_id",  $('#editProgramId').val());
+
+
+  console.log(fd)
+  $.ajax({
+    url: "/videomanagement/videoupload/",
+    data: fd,
+    processData: false,
+    method: "post",
+    contentType: false,
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "X-CSRFToken",
+        $('input[name="csrfmiddlewaretoken"]').val()
+      );
+    },
+    success: function(data) {
+            toastr.success("Program edited successfully");
+            location.reload();
+
+        }
+  });
+
+
+});
 
 $("#programTab").click(function() {
    $(".NewprogramTab").removeClass("displayBlock");
@@ -500,9 +610,18 @@ var source = document.createElement('source');
 source.setAttribute('src', video_path);
 
 video.appendChild(source);
+  $('#videoModal').modal('show')
+
 video.play();
-        $('#videoModal').modal('show')
     }
+
+function videoClose(){
+var video = document.getElementById('video');
+video.pause();
+$('#videoModal').modal('hide')
+
+}
+
 
 function getUserProgramsAccess(user_id){
    var fd = new FormData();
@@ -611,6 +730,16 @@ function deleteProgram(program_id){
 
     var data = new FormData();
     data.append("program_id", program_id);
+
+     $.confirm({
+    title: "Delete Video",
+    content: "Are you sure you want to delete?",
+    buttons: {
+      cancel: function() {},
+
+      delete: function() {
+
+
     $.ajax({
         url: "/videomanagement/deleteprogram/",
         data: data,
@@ -629,11 +758,50 @@ function deleteProgram(program_id){
 
 
         }
-  });
 
+  });
+}
+}
+  });
 
 }
 
+
+
+
+function editProgram(program_id){
+    $('#programEdit').modal('show')
+    var data = new FormData();
+    data.append("program_id", program_id);
+    $.ajax({
+        url: "/videomanagement/editprogram/",
+        data: data,
+        processData: false,
+        method: "post",
+        contentType: false,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(
+            "X-CSRFToken",
+            $('input[name="csrfmiddlewaretoken"]').val()
+          );
+        },
+        success: function(data) {
+        console.log(data)
+    $.each(data.program_obj, function(key, value) {
+        $('input[id="yakshanameedit"]').val(value["program_title"]);
+        $("textarea#descriptionedit").val(value["description"]);
+        $('input[id="editProgramId"]').val(program_id);
+        $('input[id="amountedit"]').val(value["amount"]);
+            document.getElementById('editImage').src = value["image_path"];
+
+    })
+
+
+        }
+
+  });
+
+}
 
 function logout(){
  $.ajax({
