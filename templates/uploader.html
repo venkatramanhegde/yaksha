@@ -346,8 +346,8 @@ h1 {
             </div>
             <div class="modal-body">
                <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls
-                  preload="none" width="100%" height="100%" poster="" data-setup="{}">
-                  <source src="" type='video/mp4' />
+                  preload="none" width="100%" height="100%" poster="" data-setup="{}" src="">
+<!--                  <source src="" type='video/mp4' />-->
                </video>
 
             </div>
@@ -604,12 +604,13 @@ $("#programTab").click(function() {
 
 
  function openvideo(video_path){
- var video = document.getElementById('video');
-var source = document.createElement('source');
+  var video = document.getElementById('video')
+ document.getElementById('video').src = video_path;
+<!--var source = document.createElement('source');-->
+<!--source.removeAttribute('src');-->
+<!--source.setAttribute('src', video_path);-->
 
-source.setAttribute('src', video_path);
-
-video.appendChild(source);
+<!--video.appendChild(source);-->
   $('#videoModal').modal('show')
 
 video.play();

@@ -137,21 +137,21 @@ class UserPage(LoginRequiredMixin, View):
 class PaymentView(LoginRequiredMixin, View):
     login_url = '/videomanagement/login/'
 
-    def get(self, request):
+    def post(self, request):
         #create razorpay client
-        print(request.GET)
+        print(request.POST)
         client = razorpay.Client(auth=(razorpay_key, razorpay_value))
 
         # create order
-        print(request.GET.get('video_id'))
-        amount = float(request.GET.get('amount')) * 100
+        print(request.POST.get('video_id'))
+        amount = float(request.POST.get('amount')) * 100
         response_payment = client.order.create(dict(amount=amount,
                                                     currency='INR')
                                                )
         order_status = response_payment['status']
-        response_payment["video_id"] = int(request.GET.get('video_id'))
+        response_payment["video_id"] = int(request.POST.get('video_id'))
         if order_status == 'created':
-            videos = Programs.objects.all()
+            videos = Programs.objects.all().order_by("-amount")
             videos_id_list = VideoOrders.objects.filter(user_id=request.user.id).values_list("video_id")
             premium_video = Programs.objects.filter(id__in=videos_id_list)
             context = {'videos': videos, "payment": response_payment,  "premium_video": premium_video,
