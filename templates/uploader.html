@@ -299,6 +299,7 @@ h1 {
             <td>{{users.email}}</td>
             <td>{{users.phone_number}}</td>
             <td><button onclick="getUserProgramsAccess({{users.id}})">Video management</button></td>
+            <td><button onclick="getAllProgramsAccess({{users.id}})">All Video Access</button></td>
 
           </tr>
        {% endfor %}
@@ -678,6 +679,29 @@ function getUserProgramsAccess(user_id){
       });
 }
 
+
+
+function getAllProgramsAccess(user_id){
+    var data = new FormData();
+    data.append("user_id", user_id);
+       $.ajax({
+        url: "/videomanagement/giveallvideoaccess/",
+        data: data,
+        processData: false,
+        method: "post",
+        contentType: false,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(
+            "X-CSRFToken",
+            $('input[name="csrfmiddlewaretoken"]').val()
+          );
+        },
+        success: function(data) {
+            toastr.success(data.msg);
+
+        }
+  });
+}
 
 function giveAccess(video_id, user_id){
     var data = new FormData();

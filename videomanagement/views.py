@@ -129,7 +129,9 @@ class UserPage(LoginRequiredMixin, View):
     login_url = '/videomanagement/login/'
     def get(self, request, *args, **kwargs):
         videos = Programs.objects.all().order_by("-amount")
-        context = {'videos': videos}
+        videos_id_list = VideoOrders.objects.filter(user_id=request.user.id).values_list("video_id")
+        premium_video = Programs.objects.filter(id__in=videos_id_list)
+        context = {'videos': videos, "premium_video": premium_video}
         return render(request, "user.html", context)
 
 
@@ -165,28 +167,37 @@ class PaymentSuccess(LoginRequiredMixin, View):
 
     def post(self, request):
         response = request.POST
-        print(response)
+        video_id = request.POST.get("video_id")
+        buy_amount = request.POST.get("amount")
         video_order_count = VideoOrders.objects.filter(user_id=request.user.id,
-                                                       video_id=request.POST.get("video_id")).count()
-        print(video_order_count)
+                                                       video_id=video_id).count()
+
+        if buy_amount == '550.0':
+            programs_list = Programs.objects.all()
+            for program in programs_list:
+                video_order = VideoOrders(
+                    user_id=request.user.id,
+                    video_id=program.id,
+                    paid=True
+                )
+                video_order.save()
+
         if video_order_count == 0:
-            video_total_buy = Programs.objects.filter(id=request.POST.get("video_id"))
+            video_total_buy = Programs.objects.filter(id=video_id)
             # video_total_buy.total_buy += 1
             for buy in video_total_buy:
                 buy.total_buy = buy.total_buy + 1
                 buy.save()
             video_order = VideoOrders(
                 user_id=request.user.id,
-                video_id=request.POST.get("video_id"),
+                video_id=video_id,
                 paid=True
             )
             video_order.save()
         videos = Programs.objects.all()
         videos_id_list = VideoOrders.objects.filter(user_id=request.user.id).values_list("video_id")
-        print(videos_id_list)
         premium_video = Programs.objects.filter(id__in=videos_id_list)
         context = {'videos': videos, "premium_video": premium_video}
-        print(videos, premium_video)
         return render(request, "user.html", context)
 
 
@@ -269,6 +280,18 @@ class GiveVideoAccessView(View):
                                                                     have_access=True)
         data = {"msg": "access give successfully"}
         return JsonResponse(data, safe=False)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class GiveAllVideoAccess(View):
+    def post(self, r):
+        video_access_update = UserProgramAssociation.objects.filter(user_id=r.POST["user_id"]).update(
+                                                                    have_access=True)
+        data = {"msg": "All video access  give successfully"}
+        return JsonResponse(data, safe=False)
+
+
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')

@@ -2,7 +2,7 @@ from django.conf.urls import url
 from .views import LoginView, CreateUser, UploaderPage, ProgramUpload, UserPage, PaymentView, \
     PaymentSuccess, MobileUpload, WebUpload, Logout, VideoAccessView, GiveVideoAccessView,\
     RemoveVideoAccessView, SpecialVideoListView, CheckMail, OtpVerificationView, \
-    PasswordGeneration, DeleteProgramView, EditProgramView, ProgramQueriesView
+    PasswordGeneration, DeleteProgramView, EditProgramView, ProgramQueriesView, GiveAllVideoAccess
 
 
 
@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^deleteprogram/', view=DeleteProgramView.as_view(), name='delete_program'),
     url(r'^editprogram/', view=EditProgramView.as_view(), name='edit_program'),
     url(r'^sendquerries/', view=ProgramQueriesView.as_view(), name='edit_program'),
+    url(r'^giveallvideoaccess/', view=GiveAllVideoAccess.as_view(), name='give_all_video_access'),
 
 ]
 

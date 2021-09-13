@@ -134,6 +134,8 @@
         data-theme.color="#F37254">
     </script>
     <input type="hidden"  value="{{videos.id}}" name="video_id">
+    <input type="hidden"  value="{{videos.amount}}" name="amount">
+
                     </form>
                       {% endif %}
 
@@ -173,13 +175,13 @@
                                     />
                                     <br>
                                     <button onclick="openvideo('{{videos.mbl_video_path}}')" class="btn btn-primary">
-                                        Watch Mobile Version
+                                        Watch
                                     </button>
 
-                                    <br>
-                                    <button class="btn btn-primary" onclick="openvideo('  {{videos.web_video_path}}')">
-                                        Watch Mobile Version
-                                    </button>
+<!--                                    <br>-->
+<!--                                    <button class="btn btn-primary" onclick="openvideo('  {{videos.web_video_path}}')">-->
+<!--                                        Watch Mobile Version-->
+<!--                                    </button>-->
 
                                 </div>
                             </div>
@@ -382,10 +384,9 @@ $('#videoModal').modal('show')
 $("#specialProgram").click(function() {
           $(".specialProgram").removeClass("displayNone");
           $(".programTab").addClass("displayNone");
-          $(".premiumTab").removeClass("displayBlock");
-          $(".programTab").addClass("displayNone");
           $(".programTab").removeClass("displayBlock");
-
+          $(".premiumTab").removeClass("displayBlock");
+          $(".premiumTab").addClass("displayNone");
           if (!$(this).hasClass("active")) {
             $("#specialProgram").addClass("active");
             $(this).siblings().removeClass("active");
